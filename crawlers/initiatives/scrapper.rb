@@ -42,7 +42,8 @@ def crawl_initiative cod, n
   (1..n).to_a.reverse.each do |i|
     begin
       doc = Nokogiri::HTML(open("http://2004.ccyl.es/Iniciativas/Ficha.aspx?Entidad=EXP&Leg=#{leg}&Cod=#{cod}&Num=#{i}"))
-      Initiative.create(parse_initiative(doc).merge(:number => i, :type => cod, :legislation => leg))
+      initiative = parse_initiative(doc)
+      Initiative.create(initiative.merge(:number => i, :type => cod, :legislation => leg)) if initiative
       print '.'
     rescue Exception => e
       puts e.message
@@ -52,6 +53,7 @@ end
 
 def parse_initiative doc
   p_nodes = doc.xpath("//div[@id='dApartado']/p")
+  return nil unless p_nodes
   {
     :description => p_nodes[0].content,
     :published_at => Date.parse(p_nodes[1].content.split(', ').last)
