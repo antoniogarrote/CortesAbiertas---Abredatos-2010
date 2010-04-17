@@ -1,9 +1,20 @@
 class Api::WordsController < ApplicationController
 
   def create
-    data = ActiveSupport::JSON.decode(request.body.string)
+    data = ActiveSupport::JSON.decode(request.body.read)
+
+    y, m, d =data["date"].split(".")
+    data["date"] = Date.new(y.to_i,m.to_i,d.to_i)
+
     begin
-      Word.create!(data)
+      found = Word.find(:first, :conditions => { "stem" => data["stem"],
+                                                 "pos"  => data["pos"] })
+      if found
+        found.count += data["count"]
+        found.save!
+      else
+        Word.create!(data)
+      end
       render :text => "created", :status => 201
     rescue Exception => ex
       logger.error(ex.message)

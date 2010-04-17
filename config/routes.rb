@@ -2,6 +2,8 @@ ActionController::Routing::Routes.draw do |map|
 
 
   map.namespace :api do |api|
+    api.resources :sessions
+    api.resources :interventions
     api.resources :parliament_members
     api.resources :words
   end
