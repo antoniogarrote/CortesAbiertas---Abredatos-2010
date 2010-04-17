@@ -45,32 +45,52 @@ class Date
 end
 
 module Taggable
+  CHUNK_SIZE = 200
+
   def tag_me(content)
-      url = URI.parse(TAGGER_SERVER)
-      begin
-      req = Net::HTTP::Post.new(url.path)
+    print "."
+    total = content.length
+    num_chunks = (total / CHUNK_SIZE).to_i
+    init = 0
+    tags = []
 
-      #req.body = session.content
-      req.body = String.gatelize(content)
-      print "."
+    (0..num_chunks).each do |chunk|
+      print ","
+      if (init < total)
+        end_pos = init + CHUNK_SIZE
+        end_pos = total if end_pos > total
+        while content[end_pos..end_pos] != " " && end_pos < total
+          end_pos += 1
+        end
+        url = URI.parse(TAGGER_SERVER)
+        begin
+          req = Net::HTTP::Post.new(url.path)
 
-      req.add_field('Content-Type','content="text/html; charset=utf-8')
-      http = Net::HTTP.new(url.host, url.port)
-      http.read_timeout = 30000000
-      res = http.start {|http| http.request(req) }
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        #puts res.body
-        JSON.parse(res.body)
-      else
-        res.error!
+          #req.body = session.content
+          req.body = String.gatelize(content[init..end_pos])
+          init = end_pos
+
+          req.add_field('Content-Type','content="text/html; charset=utf-8')
+          http = Net::HTTP.new(url.host, url.port)
+          http.read_timeout = 30000000
+          res = http.start {|http| http.request(req) }
+          case res
+          when Net::HTTPSuccess, Net::HTTPRedirection
+            #puts res.body
+            tags + JSON.parse(res.body)
+          else
+            res.error!
+          end
+        rescue Exception => ex
+          []
+        rescue Timeout::Error => e
+          puts content
+          []
+        end
       end
-    rescue Exception => ex
-        []
-    rescue Timeout::Error => e
-        puts content
-        []
     end
+
+    tags
   end
 end
 
@@ -268,11 +288,11 @@ class Word
   def self.from_mongo(data)
     w = Word.new
     h = { "count" => data["count"],
-          "stem" => data["stem"],
-          "pos" => data["pos"],
-          "literal" => data["literal"],
-          "lemma" => data["lemma"],
-          "date" => data["date"] }
+      "stem" => data["stem"],
+      "pos" => data["pos"],
+      "literal" => data["literal"],
+      "lemma" => data["lemma"],
+      "date" => data["date"] }
 
     w.tag = h
     w.mongo = data
