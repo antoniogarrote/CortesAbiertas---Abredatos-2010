@@ -1,4 +1,14 @@
 class Api::InterventionsController < ApplicationController
+  def index
+    begin
+      render :json => Session.find(params[:session_id]).interventions.to_haml.to_json, :status => 200
+    rescue Exception => ex
+      logger.error(ex.message)
+      logger.error(ex.backtrace.join("\r\n"))
+      render :text => "error", :status => 401
+    end
+  end
+
   def create
 
     data = ActiveSupport::JSON.decode(request.body.read)
@@ -66,7 +76,7 @@ class Api::InterventionsController < ApplicationController
       end
     rescue Exception => ex
       logger.error("Impossible to retrieve query")
-      logger.erro(ex.backtrace.join("\r\n"))
+      logger.error(ex.backtrace.join("\r\n"))
       render :text => "#{ex.message}", :status => 401
     end
   end
