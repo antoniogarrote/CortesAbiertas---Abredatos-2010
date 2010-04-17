@@ -3,7 +3,14 @@ class Api::WordsController < ApplicationController
   def create
     data = ActiveSupport::JSON.decode(request.body.string)
     begin
-      Word.create!(data)
+      found = Word.find(:first, :conditions => { "stem" => data["stem"],
+                                                 "pos"  => data["pos"] })
+      if found
+        found.count += data["count"]
+        found.save!
+      else
+        Word.create!(data)
+      end
       render :text => "created", :status => 201
     rescue Exception => ex
       logger.error(ex.message)

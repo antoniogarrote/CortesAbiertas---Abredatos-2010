@@ -18,6 +18,24 @@ class Api::ParliamentMembersControllerTest < ActionController::TestCase
     end
   end
 
+  test "should not allow the creation of duplicated orators" do
+    json = { "name" => parliament_members(:john).name, "words_json" => [{"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
+                                                                          "stem"=>"levant", "pos"=>"VLfin"},
+                                                                        {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
+                                                                          "stem"=>"levant", "pos"=>"VLfin"}]}.to_json
+
+    before = ParliamentMember.count
+    @request.env['RAW_POST_DATA'] = json
+    post :create, {}, { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
+    @request.env.delete('RAW_POST_DATA')
+
+    assert_response 401
+
+    assert ParliamentMember.count == before
+
+  end
+
+
   test "should return all the procurators" do
 
     get :show

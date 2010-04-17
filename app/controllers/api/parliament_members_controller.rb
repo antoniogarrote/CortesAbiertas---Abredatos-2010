@@ -2,9 +2,12 @@ class Api::ParliamentMembersController < ApplicationController
 
   def create
     data = ActiveSupport::JSON.decode(request.body.string)
+
     begin
       json = data["words_json"].to_json
       data["words_json"] = json
+      raise Exception.new("Parliament member already in database") if ParliamentMember.find(:first, :conditions => { :name => data["name"] })
+
       ParliamentMember.create!(data)
       render :text => "created", :status => 201
     rescue Exception => ex
