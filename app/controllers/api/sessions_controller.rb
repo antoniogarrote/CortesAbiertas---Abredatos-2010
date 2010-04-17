@@ -31,6 +31,14 @@ class Api::SessionsController < ApplicationController
     end
   end
 
+  def index
+    begin
+        find_all
+    rescue Exception => ex
+      render :text => "error", :status => 401
+    end
+  end
+
   def show
     begin
       if params["identifier"]
