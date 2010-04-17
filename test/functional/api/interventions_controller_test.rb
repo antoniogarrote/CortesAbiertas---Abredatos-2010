@@ -12,6 +12,7 @@ class Api::InterventionsControllerTest < ActionController::TestCase
                                 {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
                                  "stem"=>"levant", "pos"=>"VLfin"}],
                "date" => "2009.10.19",
+               "session_id" => 1,
                "text" => "This is a text"}.to_json
 
       @request.env['RAW_POST_DATA'] = json
@@ -32,6 +33,7 @@ class Api::InterventionsControllerTest < ActionController::TestCase
                                 {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
                                  "stem"=>"levant", "pos"=>"VLfin"}],
                "date" => "2009.10.19",
+               "session_id" => 1,
                "text" => "This is a text"}.to_json
 
       @request.env['RAW_POST_DATA'] = json
@@ -39,6 +41,29 @@ class Api::InterventionsControllerTest < ActionController::TestCase
       @request.env.delete('RAW_POST_DATA')
 
       assert_response :created
+    end
+  end
+
+  test "should create a new intervention and a new orator if the orator was not present" do
+    assert_difference('ParliamentMember.count') do
+      assert_difference('Intervention.count') do
+
+
+        json = { "parliament_member" => "Larry Ellison",
+                 "words_json" => [{"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
+                                   "stem"=>"levant", "pos"=>"VLfin"},
+                                  {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
+                                   "stem"=>"levant", "pos"=>"VLfin"}],
+                 "date" => "2009.10.19",
+                 "session_id" => 1,
+                 "text" => "This is a text"}.to_json
+
+        @request.env['RAW_POST_DATA'] = json
+        post :create, {}, { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
+        @request.env.delete('RAW_POST_DATA')
+
+        assert_response :created
+      end
     end
   end
 
@@ -69,7 +94,7 @@ class Api::InterventionsControllerTest < ActionController::TestCase
 
   test "should destroy all the procurators" do
 
-    delete :destroy, { }
+    delete :destroy, {:id => '*' }
 
     assert Intervention.count == 0
   end

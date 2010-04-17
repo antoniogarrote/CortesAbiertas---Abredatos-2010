@@ -4,11 +4,27 @@ class Api::ParliamentMembersController < ApplicationController
     data = ActiveSupport::JSON.decode(request.body.read)
 
     begin
-      json = data["words_json"].to_json
-      data["words_json"] = json
-      raise Exception.new("Parliament member already in database") if ParliamentMember.find(:first, :conditions => { :name => data["name"] })
+      json_str = data["words_json"].to_json
+      words_json = data["words_json"]
+      data["words_json"] = json_str
+      mp = ParliamentMember.find(:first, :conditions => { :name => data["name"] })
+      if mp.nil?
+        ParliamentMember.create!(data)
+      else
+        old = decoded_words_json = ActiveSupport::JSON.decode(mp.words_json)
+        to_add = []
+        words_json.each do |w|
+          present = old.detect{ |ow| ow["stem"] == w["stem"] && ow["pos"] == w["pos"] }
+          if present
+            present["count"] += w["count"]
+          else
+            to_add << w
+          end
+        end
+        mp.words_json = to_add.to_json
+        mp.save!
+      end
 
-      ParliamentMember.create!(data)
       render :text => "created", :status => 201
     rescue Exception => ex
       logger.error(ex.message)

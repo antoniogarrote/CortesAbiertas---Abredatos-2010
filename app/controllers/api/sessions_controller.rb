@@ -1,5 +1,14 @@
 class Api::SessionsController < ApplicationController
 
+  def index
+    begin
+        find_all
+    rescue Exception => ex
+      logger.error ex.message
+      render :text => "error", :status => 401
+    end
+  end
+
   def create
     b = request.body.read
     data = ActiveSupport::JSON.decode(b)
@@ -31,15 +40,6 @@ class Api::SessionsController < ApplicationController
     end
   end
 
-  def index
-    begin
-        find_all
-    rescue Exception => ex
-      logger.error ex.message
-      render :text => "error", :status => 401
-    end
-  end
-
   def show
     begin
       if params["identifier"]
@@ -56,7 +56,13 @@ class Api::SessionsController < ApplicationController
 
   def destroy
     begin
-      Session.destroy_all
+      if params[:id] == "*"
+        Session.destroy_all
+        Interventions.destroy_all
+      elsif params[:id]
+        Session.find(params[:id]).interventions.destroy_all
+        Session.find(params[:id]).destroy
+      end
       render :text => "destroyed", :status => 200
     rescue Exception => ex
       render :text => "error", :status => 401

@@ -1,5 +1,6 @@
 class Api::InterventionsController < ApplicationController
   def create
+
     data = ActiveSupport::JSON.decode(request.body.read)
     begin
       json = data["words_json"].to_json
@@ -11,7 +12,10 @@ class Api::InterventionsController < ApplicationController
       if data["parliament_member"]
         pm = ParliamentMember.find(:first, :conditions => { :name => data["parliament_member"]})
         if pm.nil?
-          raise Exception.new "Parliament Member non existent #{data["parliament_member"]}"
+          ParliamentMember.create!(:name => data["parliament_member"])
+          pm = ParliamentMember.find(:first, :conditions => { :name => data["parliament_member"]})
+          data["parliament_member_id"] = pm.id
+          data.reject!{ |k,v| k == "parliament_member" }
         else
           data["parliament_member_id"] = pm.id
           data.reject!{ |k,v| k == "parliament_member" }
@@ -21,6 +25,21 @@ class Api::InterventionsController < ApplicationController
       if data["text"]
         data["content"] = data["text"]
         data.reject!{ |k,v| k == "text"}
+      end
+
+      if data["session_id"] || data["session_identifier"]
+        s = if data["session_id"]
+              Session.find(data["session_id"])
+            else
+              tmp = Session.find(:first, :conditions => { :identifier => data["session_identifier"] })
+              data.reject!{ |k,v| k == "session_identifier"}
+              tmp
+            end
+        raise Exception.new("Unknown session for interventions") if s.nil?
+
+        data["session_id"] = s.id
+      else
+        raise Exception.new("Unknown session for intervention")
       end
 
 
@@ -51,7 +70,13 @@ class Api::InterventionsController < ApplicationController
 
   def destroy
     begin
-      Intervention.destroy_all
+      if params[:id] == "*"
+        Intervention.destroy_all
+      elsif params[:id]
+        Intervention.find(params[:id]).destroy
+      else
+        Session.find(params[:session_id]).interventions.destroy_all
+      end
       render :text => "destroyed", :status => 200
     rescue Exception => ex
       render :text => "error", :status => 401

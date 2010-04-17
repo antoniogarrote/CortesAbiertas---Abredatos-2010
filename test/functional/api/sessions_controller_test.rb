@@ -51,6 +51,15 @@ class Api::SessionsControllerTest < ActionController::TestCase
     assert sessions.length == 1
   end
 
+  test "should return all the sessions from index" do
+
+    get :index
+
+    sessions = ActiveSupport::JSON.decode(@response.body)
+    assert sessions.length == 1
+  end
+
+
   test "should return sessions according to the id" do
     get :show, { :id => 1}
 
@@ -69,7 +78,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
 
   test "should destroy all the procurators" do
 
-    delete :destroy, { }
+    delete :destroy, { :id => '*' }
 
     assert Session.count == 0
   end

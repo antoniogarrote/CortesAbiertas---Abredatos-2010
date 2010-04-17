@@ -7,6 +7,7 @@ class Intervention < ActiveRecord::Base
     { :parliament_member_id => parliament_member_id,
       :date => date,
       :content => content,
+      :sequence => sequence || -1,
       :session_id => session.id,
       :session_identifier => session.identifier,
       :parliament_member => parliament_member.to_hash,
