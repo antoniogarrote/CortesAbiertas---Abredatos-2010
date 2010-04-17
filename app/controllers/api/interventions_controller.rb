@@ -1,7 +1,7 @@
 class Api::InterventionsController < ApplicationController
   def index
     begin
-      render :json => Session.find(params[:session_id]).interventions.to_hash.to_json, :status => 200
+      render :json => Session.find(params[:session_id]).interventions.map(&:to_hash).to_json, :status => 200
     rescue Exception => ex
       logger.error(ex.message)
       logger.error(ex.backtrace.join("\r\n"))
