@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.namespace :api do |api|
+    api.resources :words
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
