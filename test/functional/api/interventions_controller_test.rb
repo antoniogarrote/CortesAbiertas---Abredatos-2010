@@ -11,7 +11,7 @@ class Api::InterventionsControllerTest < ActionController::TestCase
                                  "stem"=>"levant", "pos"=>"VLfin"},
                                 {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
                                  "stem"=>"levant", "pos"=>"VLfin"}],
-               "date" => Date.today,
+               "date" => "2009.10.19",
                "text" => "This is a text"}.to_json
 
       @request.env['RAW_POST_DATA'] = json
@@ -31,7 +31,7 @@ class Api::InterventionsControllerTest < ActionController::TestCase
                                  "stem"=>"levant", "pos"=>"VLfin"},
                                 {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
                                  "stem"=>"levant", "pos"=>"VLfin"}],
-               "date" => Date.today,
+               "date" => "2009.10.19",
                "text" => "This is a text"}.to_json
 
       @request.env['RAW_POST_DATA'] = json

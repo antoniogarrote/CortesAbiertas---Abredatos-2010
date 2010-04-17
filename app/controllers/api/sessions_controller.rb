@@ -1,10 +1,15 @@
 class Api::SessionsController < ApplicationController
 
   def create
-    data = ActiveSupport::JSON.decode(request.body.read)
+    b = request.body.read
+    data = ActiveSupport::JSON.decode(b)
     begin
       json = data["words_json"].to_json
       data["words_json"] = json
+
+      y, m, d =data["date"].split(".")
+
+      data["date"] = Date.new(y.to_i,m.to_i,d.to_i)
 
       if data["id"]
         data["identifier"] = data.id

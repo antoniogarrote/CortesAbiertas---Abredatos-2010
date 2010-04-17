@@ -2,6 +2,10 @@ class Api::WordsController < ApplicationController
 
   def create
     data = ActiveSupport::JSON.decode(request.body.read)
+
+    y, m, d =data["date"].split(".")
+    data["date"] = Date.new(y.to_i,m.to_i,d.to_i)
+
     begin
       found = Word.find(:first, :conditions => { "stem" => data["stem"],
                                                  "pos"  => data["pos"] })

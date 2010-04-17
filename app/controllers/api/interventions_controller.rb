@@ -5,6 +5,9 @@ class Api::InterventionsController < ApplicationController
       json = data["words_json"].to_json
       data["words_json"] = json
 
+      y, m, d =data["date"].split(".")
+      data["date"] = Date.new(y.to_i,m.to_i,d.to_i)
+
       if data["parliament_member"]
         pm = ParliamentMember.find(:first, :conditions => { :name => data["parliament_member"]})
         if pm.nil?

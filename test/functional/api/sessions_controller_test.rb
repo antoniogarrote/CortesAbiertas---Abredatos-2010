@@ -11,7 +11,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
                                 {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
                                  "stem"=>"levant", "pos"=>"VLfin"}],
                "identifier" => "something",
-               "date" => Date.today,
+               "date" => "2009.10.19",
                "content" => "This is a text",
                "day_order" => "The day order" }.to_json
 
@@ -30,7 +30,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
                                  "stem"=>"levant", "pos"=>"VLfin"},
                                 {"count"=>2, "literal"=>"levanta", "lemma"=>"levantar",
                                  "stem"=>"levant", "pos"=>"VLfin"}],
-               "date" => Date.today,
+               "date" => "2009.10.19",
                "id" => "test algo",
                "content" => "This is a text",
                "day_order" => "The day order" }.to_json
