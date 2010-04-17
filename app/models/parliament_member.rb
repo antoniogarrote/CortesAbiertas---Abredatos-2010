@@ -1,12 +1,13 @@
 class ParliamentMember < ActiveRecord::Base
+
   has_many :interventions
+  has_many :parliament_member_words
 
   validates_uniqueness_of :name
   validates_presence_of :name
 
   def to_hash
-    decoded_words_json = ActiveSupport::JSON.decode(words_json)
-    {"name" => name, "words_json" => decoded_words_json}
+    {"name" => name, "words_json" => parliament_member_words.map(&:to_hash) }
   end
 
   def to_json

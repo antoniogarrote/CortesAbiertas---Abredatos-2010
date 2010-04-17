@@ -1,9 +1,9 @@
 class Intervention < ActiveRecord::Base
   belongs_to :parliament_member
   belongs_to :session
+  has_many :intervention_words
 
   def to_hash
-    decoded_words_json = ActiveSupport::JSON.decode(words_json)
     { :parliament_member_id => parliament_member_id,
       :date => date,
       :content => content,
@@ -11,7 +11,7 @@ class Intervention < ActiveRecord::Base
       :session_id => session.id,
       :session_identifier => session.identifier,
       :parliament_member => parliament_member.to_hash,
-      :words_json => decoded_words_json }
+      :words_json => intervention_words.map(&:to_hash) }
   end
 
   def to_json

@@ -13,11 +13,7 @@ class Api::InterventionsController < ApplicationController
 
     data = ActiveSupport::JSON.decode(request.body.read)
     begin
-      json = data["words_json"].to_json
-      data["words_json"] = json
-
-      y, m, d =data["date"].split(".")
-      data["date"] = Date.new(y.to_i,m.to_i,d.to_i)
+      words = data.delete("words_json")
 
       if data["parliament_member"]
         pm = ParliamentMember.find(:first, :conditions => { :name => data["parliament_member"]})
@@ -54,6 +50,7 @@ class Api::InterventionsController < ApplicationController
 
 
       int = Intervention.new(data)
+      InterventionWord.parse_words({ :intervention_id => int.id}, words)
       int.save!
       render :text => "created #{int.id}", :status => 201
     rescue Exception => ex
@@ -111,7 +108,7 @@ class Api::InterventionsController < ApplicationController
   def find_by_id(id)
     intervention = Intervention.find(id)
     if intervention
-      render :json => intervention.to_json, :status => 200
+      render :json => intervention.to_hash.to_json, :status => 200
     else
       render :text => "not found", :status => 404
     end

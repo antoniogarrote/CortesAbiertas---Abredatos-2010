@@ -3,9 +3,7 @@
 john:
   id: 1
   name: John Locke
-  words_json: "[{\"count\": 2, \"literal\": \"levanta\", \"lemma\": \"levantar\", \"stem\": \"levant\", \"pos\": \"VLfin\"}]"
 
 daniel:
   id: 2
   name: Daniel Faraday
-  words_json: "[{\"count\": 2, \"literal\": \"levanta\", \"lemma\": \"levantar\", \"stem\": \"levant\", \"pos\": \"VLfin\"}]"

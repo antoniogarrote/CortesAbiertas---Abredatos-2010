@@ -36,15 +36,6 @@ class Api::ParliamentMembersControllerTest < ActionController::TestCase
   end
 
 
-  test "should return all the procurators" do
-
-    get :show
-
-    orators = ActiveSupport::JSON.decode(@response.body)
-
-    assert orators.length == 2
-  end
-
   test "should return one procurators" do
 
     get :show, { :name => "John Locke"}
