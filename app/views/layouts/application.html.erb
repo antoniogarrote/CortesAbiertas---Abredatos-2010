@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+
+    <title>cortesabiertas.org</title>
+      <%= include_jq4r %>
+      <%= javascript_include_tag :defaults  %>
+      <%= javascript_include_tag "jquery.selectboxes.min.js" %>
+     <%= stylesheet_link_tag "blueprint/screen", :media => 'screen, projection' %>
+      <%= stylesheet_link_tag "blueprint/print", :media => 'print' %>
+     <!--[if lt IE 8]>
+        <%= stylesheet_link_tag "blueprint/ie", :media => 'screen, projection' %>
+     <![endif]-->
+      <%= stylesheet_link_tag "home_layout"%>
+ </head>
+
+  <body>
+    <div id='fade' class='black_overlay'></div>
+    <%= render :partial => 'shared/header' %>
+    <div id='main_container' class='container'>
+      <div id="home_column" class="span-24 last">
+        <%= yield %>
+      </div>
+    </div>
+
+    <div id='footer_push'></div>
+
+    <div id='footer'>
+      Copyright &copy; 2010 cortesabiertas.org. Todos los derechos reservados
+      <span class='link_separator'>&nbsp;</span>
+      <a href='http://www.abredatos.es/'>abreadatos 2010 </a>
+      <span class='link_separator'>&nbsp;</span>
+      <a href='contact.html'>contacto</a>
+    </div>
+  </body>
+</html>

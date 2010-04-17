@@ -1,0 +1,31 @@
+#header
+  =link_to image_tag("logo.png", :id => "logo"), '/', :block => 0
+  #header_links
+
+  #menu
+    -if session[:menu] == "intiatives"
+      %span#menu_selected
+        Iniciativas
+    -else
+      =link_to "Iniciativas", url_for(:controller => 'initiatives', :action => 'index')
+    %span.link_separator
+      &nbsp;
+    -if session[:menu] == "provinces"
+      %span#menu_selected
+        Provincias
+    -else
+      =link_to "Provincias", url_for(:controller => 'provinces', :action => 'index')
+    %span.link_separator
+      &nbsp;
+    -if session[:menu] == "news"
+      %span#menu_selected
+        Noticias
+    -else
+      =link_to "Noticias", url_for(:controller => 'news', :action => 'index')
+    %span.link_separator
+      &nbsp;
+    -if session[:menu] == "sessions"
+      %span#menu_selected
+        Plenos
+    -else
+      =link_to "Plenos", url_for(:controller => 'sessions', :action => 'index')

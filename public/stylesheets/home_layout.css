@@ -6,22 +6,28 @@ html
 
 body
 {
-   color: #483737;
+   color:#333333;;
+   background-color: #f9f9f9;
    height: 100%
+}
+
+h1, h2, h3, h4, h5, h6 {
+   color:#333333
 }
 
 #header
 {
    color: #ffffff;
-   height: 108px;
-   background: url(/images/header_bg.png) repeat-x;
+   height: 108px
 }
 
 #logo
 {
-   height: 90px;
+   height: 70px;
    margin-top: 9px;
-   margin-left: 1%
+   margin-left: 1%;
+   padding-top: 10px;
+   padding-bottom: 20px
 }
 
 #header_links
@@ -40,12 +46,8 @@ body
 
 #menu
 {
-   border-top-color: #42ad42;
-   border-top-style: solid;
-   border-top-width: 5px;
    height: 36px;
    margin-bottom: 13px;
-   background: url(/images/menu_bg.png) repeat-x;
    font-size: 18px;
    padding-left: 1%
 }
@@ -76,7 +78,8 @@ body
    min-height: 100%;
    height: auto !important;
    height: 100%;
-   margin: 0 auto -36px
+   margin: 0 auto -36px;
+   margin-top: 40px
 }
 
 #footer_push
@@ -93,7 +96,7 @@ body
    padding-top: 18px;
    margin-bottom: 0px;
    padding-bottom: 0px;
-   background: #F9E9A9 url(/images/header_bg.png) repeat-x
+   background: #5f202a
 }
 
 .black_overlay
@@ -145,13 +148,13 @@ body
 /* common texts */
 a
 {
-   color: #dba421 ;
+   color: #f38f33 ;
    text-decoration: none
 }
-a:visited { color: #dba421 }
+a:visited { color: ##f38f33 }
 a:hover
 {
-   color: #dba421;
+   color: #f38f33;
    text-decoration: underline
 }
 
