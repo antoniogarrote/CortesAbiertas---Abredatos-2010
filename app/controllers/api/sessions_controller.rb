@@ -35,6 +35,7 @@ class Api::SessionsController < ApplicationController
     begin
         find_all
     rescue Exception => ex
+      logger.error ex.message
       render :text => "error", :status => 401
     end
   end
