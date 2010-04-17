@@ -1,2 +1,3 @@
 haml --version 2.2.3
 mysql --version 2.7
+nokogiri --version 1.4.0
