@@ -43,8 +43,9 @@ class Api::InterventionsController < ApplicationController
       end
 
 
-      Intervention.create!(data)
-      render :text => "created", :status => 201
+      int = Intervention.new(data)
+      int.save!
+      render :text => "created #{int.id}", :status => 201
     rescue Exception => ex
       logger.error(ex.message)
       logger.error(ex.backtrace.join("\r\n"))
@@ -64,7 +65,9 @@ class Api::InterventionsController < ApplicationController
         find_all
       end
     rescue Exception => ex
-      render :text => "error", :status => 401
+      logger.error("Impossible to retrieve query")
+      logger.erro(ex.backtrace.join("\r\n"))
+      render :text => "#{ex.message}", :status => 401
     end
   end
 
