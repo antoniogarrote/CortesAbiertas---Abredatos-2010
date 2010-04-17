@@ -1,5 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+
+
   map.namespace :api do |api|
+    api.resources :parliament_members
     api.resources :words
   end
 
