@@ -77,7 +77,15 @@ module Taggable
           case res
           when Net::HTTPSuccess, Net::HTTPRedirection
             #puts res.body
-            tags + JSON.parse(res.body)
+            tmp = JSON.parse(res.body)
+            tmp.each do |t|
+              found = tags.detect{ |st| st['pos']  == t['pos'] && t['stem'] == st['stem'] }
+              if found
+                found['count'] += t['count']
+              else
+                tags << t
+              end
+            end
           else
             res.error!
           end
@@ -382,10 +390,10 @@ db = Mongo::Connection.new.db("cortes_abiertas")
 sessions = YAML::load(File.open("sessions.yml","r"))
 sessions_finished = YAML::load(File.open("finished.yml","r"))
 
+debugger
 
 
-
-sessions[0..5].each do |session|
+sessions[0..20].each do |session|
   id = session.id
   if sessions_finished.include? id
     puts "#{id} ya insertado"
