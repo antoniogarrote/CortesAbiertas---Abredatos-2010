@@ -1,7 +1,7 @@
 class Api::ParliamentMembersController < ApplicationController
 
   def create
-    data = ActiveSupport::JSON.decode(request.body.string)
+    data = ActiveSupport::JSON.decode(request.body.read)
 
     begin
       json = data["words_json"].to_json

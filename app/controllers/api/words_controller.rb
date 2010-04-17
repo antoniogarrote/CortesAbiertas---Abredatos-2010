@@ -1,7 +1,7 @@
 class Api::WordsController < ApplicationController
 
   def create
-    data = ActiveSupport::JSON.decode(request.body.string)
+    data = ActiveSupport::JSON.decode(request.body.read)
     begin
       found = Word.find(:first, :conditions => { "stem" => data["stem"],
                                                  "pos"  => data["pos"] })
