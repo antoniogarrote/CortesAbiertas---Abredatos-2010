@@ -6,3 +6,4 @@ an_internvention:
   words_json: "[{\"count\": 2, \"literal\": \"levanta\", \"lemma\": \"levantar\", \"stem\": \"levant\", \"pos\": \"VLfin\"}]"
   date: <%= Date.today %>
   content: La candente magnana de Febrero en que Beatriz Viterbo murio despues de una imperiosa agonia
+  session_id: 1

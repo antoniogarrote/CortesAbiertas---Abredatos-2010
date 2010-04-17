@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+session_one:
+  id: 1
+  identifier: op 3123123
+  content: this is the content
+  date: <%= Date.today %>
+  words_json: "[{\"count\": 2, \"literal\": \"levanta\", \"lemma\": \"levantar\", \"stem\": \"levant\", \"pos\": \"VLfin\"}]"
+  day_order: El orden del dia
+  interventions: [1]

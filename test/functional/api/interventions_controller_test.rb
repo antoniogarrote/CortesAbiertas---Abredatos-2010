@@ -54,16 +54,16 @@ class Api::InterventionsControllerTest < ActionController::TestCase
 
     get :show, { :parliament_member_id => 1}
 
-    orator = ActiveSupport::JSON.decode(@response.body)
-    assert orator.first["parliament_member"] == "John Locke"
+    interventions = ActiveSupport::JSON.decode(@response.body)
+    assert interventions.first["parliament_member"]["name"] == "John Locke"
   end
 
   test "should return interventions according to the provided name" do
 
     get :show, { :parliament_member => "John Locke"}
 
-    orator = ActiveSupport::JSON.decode(@response.body)
-    assert orator.first["parliament_member"] == "John Locke"
+    interventions = ActiveSupport::JSON.decode(@response.body)
+    assert interventions.first["parliament_member"]["name"] == "John Locke"
   end
 
 
