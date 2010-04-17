@@ -1,0 +1,3 @@
+#!/usr/local/ruby187pl202patched/bin/ruby
+require File.join(File.dirname(__FILE__), "../vendor/gems/environment")
+load File.join(File.dirname(__FILE__), "../vendor/gems/gems/haml-2.2.23/bin/html2haml")
