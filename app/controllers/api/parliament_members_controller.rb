@@ -3,6 +3,8 @@ class Api::ParliamentMembersController < ApplicationController
   def create
     data = ActiveSupport::JSON.decode(request.body.string)
     begin
+      json = data["words_json"].to_json
+      data["words_json"] = json
       ParliamentMember.create!(data)
       render :text => "created", :status => 201
     rescue Exception => ex
@@ -38,18 +40,13 @@ class Api::ParliamentMembersController < ApplicationController
   def find_pm(name)
     w = ParliamentMember.find(:first, :conditions => { :name => name})
     if w
-      words_json = ActiveSupport::JSON.decode(w.words_json)
-      render :json => {"name" => w.name, "words" => words_json}.to_json
+      render :json => w.to_json, :status => 200
     else
       render :text => "not_found", :status => 404
     end
   end
 
   def find_all_pms
-    ws = ParliamentMember.find(:all)
-    render :json => ws.map do |w|
-      words_json = ActiveSupport::JSON.decode(w.words_json)
-      {"name" => w.name, "words" => words_json}
-    end.to_json
+    render :json => ParliamentMember.find(:all).map{ |pm| pm.to_hash }.to_json, :status => 200
   end
 end

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Api::ParliamentMembersControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
+
   test "should create a new orator" do
     assert_difference('ParliamentMember.count') do
 
@@ -23,7 +23,8 @@ class Api::ParliamentMembersControllerTest < ActionController::TestCase
     get :show
 
     orators = ActiveSupport::JSON.decode(@response.body)
-    assert orators.count == 2
+
+    assert orators.length == 2
   end
 
   test "should return one procurators" do
@@ -31,7 +32,6 @@ class Api::ParliamentMembersControllerTest < ActionController::TestCase
     get :show, { :name => "John Locke"}
 
     orator = ActiveSupport::JSON.decode(@response.body)
-
     assert orator["name"] == "John Locke"
   end
 
