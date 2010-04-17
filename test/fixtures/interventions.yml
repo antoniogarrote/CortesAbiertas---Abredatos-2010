@@ -3,7 +3,6 @@
 an_internvention:
   id: 1
   parliament_member_id: 1
-  words_json: "[{\"count\": 2, \"literal\": \"levanta\", \"lemma\": \"levantar\", \"stem\": \"levant\", \"pos\": \"VLfin\"}]"
   date: 2009.10.19
   content: La candente magnana de Febrero en que Beatriz Viterbo murio despues de una imperiosa agonia
   session_id: 1

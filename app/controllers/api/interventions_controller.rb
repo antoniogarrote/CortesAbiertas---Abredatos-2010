@@ -1,17 +1,27 @@
 class Api::InterventionsController < ApplicationController
+  def index
+    begin
+      render :json => Session.find(params[:session_id]).interventions.map(&:to_hash).to_json, :status => 200
+    rescue Exception => ex
+      logger.error(ex.message)
+      logger.error(ex.backtrace.join("\r\n"))
+      render :text => "error", :status => 401
+    end
+  end
+
   def create
+
     data = ActiveSupport::JSON.decode(request.body.read)
     begin
-      json = data["words_json"].to_json
-      data["words_json"] = json
-
-      y, m, d =data["date"].split(".")
-      data["date"] = Date.new(y.to_i,m.to_i,d.to_i)
+      words = data.delete("words_json")
 
       if data["parliament_member"]
         pm = ParliamentMember.find(:first, :conditions => { :name => data["parliament_member"]})
         if pm.nil?
-          raise Exception.new "Parliament Member non existent #{data["parliament_member"]}"
+          ParliamentMember.create!(:name => data["parliament_member"])
+          pm = ParliamentMember.find(:first, :conditions => { :name => data["parliament_member"]})
+          data["parliament_member_id"] = pm.id
+          data.reject!{ |k,v| k == "parliament_member" }
         else
           data["parliament_member_id"] = pm.id
           data.reject!{ |k,v| k == "parliament_member" }
@@ -23,9 +33,26 @@ class Api::InterventionsController < ApplicationController
         data.reject!{ |k,v| k == "text"}
       end
 
+      if data["session_id"] || data["session_identifier"]
+        s = if data["session_id"]
+              Session.find(data["session_id"])
+            else
+              tmp = Session.find(:first, :conditions => { :identifier => data["session_identifier"] })
+              data.reject!{ |k,v| k == "session_identifier"}
+              tmp
+            end
+        raise Exception.new("Unknown session for interventions") if s.nil?
 
-      Intervention.create!(data)
-      render :text => "created", :status => 201
+        data["session_id"] = s.id
+      else
+        raise Exception.new("Unknown session for intervention")
+      end
+
+
+      int = Intervention.new(data)
+      InterventionWord.parse_words({ :intervention_id => int.id}, words)
+      int.save!
+      render :text => "created #{int.id}", :status => 201
     rescue Exception => ex
       logger.error(ex.message)
       logger.error(ex.backtrace.join("\r\n"))
@@ -45,13 +72,21 @@ class Api::InterventionsController < ApplicationController
         find_all
       end
     rescue Exception => ex
-      render :text => "error", :status => 401
+      logger.error("Impossible to retrieve query")
+      logger.error(ex.backtrace.join("\r\n"))
+      render :text => "#{ex.message}", :status => 401
     end
   end
 
   def destroy
     begin
-      Intervention.destroy_all
+      if params[:id] == "*"
+        Intervention.destroy_all
+      elsif params[:id]
+        Intervention.find(params[:id]).destroy
+      else
+        Session.find(params[:session_id]).interventions.destroy_all
+      end
       render :text => "destroyed", :status => 200
     rescue Exception => ex
       render :text => "error", :status => 401
@@ -73,7 +108,7 @@ class Api::InterventionsController < ApplicationController
   def find_by_id(id)
     intervention = Intervention.find(id)
     if intervention
-      render :json => intervention.to_json, :status => 200
+      render :json => intervention.to_hash.to_json, :status => 200
     else
       render :text => "not found", :status => 404
     end

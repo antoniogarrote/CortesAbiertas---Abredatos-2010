@@ -1,15 +1,19 @@
 class Api::SessionsController < ApplicationController
 
+  def index
+    begin
+        find_all
+    rescue Exception => ex
+      logger.error ex.message
+      render :text => "error #{ex.message}", :status => 401
+    end
+  end
+
   def create
     b = request.body.read
     data = ActiveSupport::JSON.decode(b)
     begin
-      json = data["words_json"].to_json
-      data["words_json"] = json
-
-      y, m, d =data["date"].split(".")
-
-      data["date"] = Date.new(y.to_i,m.to_i,d.to_i)
+      words = data.delete("words_json")
 
       if data["id"]
         data["identifier"] = data.id
@@ -22,20 +26,14 @@ class Api::SessionsController < ApplicationController
       end
 
 
-      Session.create!(data)
-      render :text => "created", :status => 201
+      s = Session.new(data)
+      s.save!
+
+      SessionWord.parse_words({ :session_id => s.id}, words)
+      render :text => "created #{s.id}", :status => 201
     rescue Exception => ex
       logger.error(ex.message)
       logger.error(ex.backtrace.join("\r\n"))
-      render :text => "error", :status => 401
-    end
-  end
-
-  def index
-    begin
-        find_all
-    rescue Exception => ex
-      logger.error ex.message
       render :text => "error", :status => 401
     end
   end
@@ -56,9 +54,23 @@ class Api::SessionsController < ApplicationController
 
   def destroy
     begin
-      Session.destroy_all
+      if params[:id] == "*"
+        Session.destroy_all
+        Intervention.destroy_all
+        SessionWord.destroy_all
+        SessionWord.destroy_all
+        InterventionWord.destroy_all
+        ParliamentMember.destroy_all
+        ParliamentMemberWord.destroy_all
+      elsif params[:id]
+        Session.find(params[:id]).interventions.destroy_all
+        Session.find(params[:id]).session_words.destroy_all
+        Session.find(params[:id]).destroy
+      end
       render :text => "destroyed", :status => 200
     rescue Exception => ex
+      logger.error("Error destroying session #{ex.message}")
+      logger.error(ex.backtrace.join("\r\n"))
       render :text => "error", :status => 401
     end
   end
@@ -67,13 +79,13 @@ class Api::SessionsController < ApplicationController
 
   def find_by_identifier(identifier)
     s = Session.find(:first, :conditions => { :identifier => identifier})
-    render :json => s.to_json, :status => 200
+    render :json => s.to_hash.to_json, :status => 200
   end
 
   def find_by_id(id)
     s = Session.find(id)
     if s
-      render :json => s.to_json, :status => 200
+      render :json => s.to_hash.to_json, :status => 200
     else
       render :text => "not_found", :status => 404
     end

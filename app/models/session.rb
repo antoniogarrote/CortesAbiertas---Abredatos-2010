@@ -1,15 +1,15 @@
 class Session < ActiveRecord::Base
   has_many :interventions
+  has_many :session_words
 
   def to_hash
-    decoded_words_json = ActiveSupport::JSON.decode(words_json)
     { :id => id,
       :identifier => identifier,
       :date => date,
       :content => content,
       :day_order => day_order,
       :interventions => interventions.map(&:to_hash),
-      :words_json => decoded_words_json }
+      :words_json => session_words.map(&:to_hash) }
   end
 
   def to_json
