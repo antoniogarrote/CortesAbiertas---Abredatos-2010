@@ -25,19 +25,19 @@ class Session < ActiveRecord::Base
   end
 
   def all_top_words(limit=3)
-    session_words.find(:all, :conditions => ["count > ?", 10], :limit => limit , :order => "count DESC")
+    session_words.find(:all, :conditions => ["relevant=?", true], :limit => limit , :order => "count DESC")
   end
 
   def all_top_nouns(limit=3)
-    session_words.find(:all, :conditions => ["count > ? AND pos=?", 10,"NC"], :limit => limit , :order => "count DESC")
+    session_words.find(:all, :conditions => ["relevant=? AND pos=?", true,"NC"], :limit => limit , :order => "count DESC")
   end
 
   def all_top_verbs(limit=3)
-    session_words.find(:all, :conditions => ["count > ? AND pos=?", 10,"VLfin"], :limit => limit , :order => "count DESC")
+    session_words.find(:all, :conditions => ["relevant=? AND pos=?", true,"VLfin"], :limit => limit , :order => "count DESC")
   end
 
   def all_top_adjs(limit=3)
-    session_words.find(:all, :conditions => ["count > ? AND pos=?", 10,"ADJ"], :limit => limit , :order => "count DESC")
+    session_words.find(:all, :conditions => ["relevant=? AND pos=?", true,"ADJ"], :limit => limit , :order => "count DESC")
   end
 
   def self.dump_js(filename)
