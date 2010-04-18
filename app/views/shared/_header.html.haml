@@ -10,13 +10,6 @@
       =link_to "Plenos", url_for(:controller => 'sessions', :action => 'index')
     %span.link_separator
       &nbsp;
-    -if session[:menu] == "intiatives"
-      %span#menu_selected
-        Iniciativas
-    -else
-      =link_to "Iniciativas", url_for(:controller => 'initiatives', :action => 'index')
-    %span.link_separator
-      &nbsp;
     -if session[:menu] == "news"
       %span#menu_selected
         Noticias
