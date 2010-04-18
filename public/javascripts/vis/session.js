@@ -57,14 +57,29 @@ function tags_circles(raphael, data, size_x, size_y) {
     positions = []
     var start = Math.random()
     max_radio = size_x/5;
+    center_x = size_x*0.5
+    center_y = size_y*0.5
     for(t in data) {
+        tag = data[t]
+
         var x = max_radio*0.5 + Math.floor(Math.random()*(size_x - max_radio)) 
         var y = max_radio*0.5 + Math.floor(Math.random()*(size_y - max_radio)) 
-        tag = data[t]
+
+        var normalized_radio = tag[0]
+        distance_from_center = 1.0 - normalized_radio
+        distance_from_center = 0.5 + (distance_from_center)*0.7
+
+        radio = tag[0] * max_radio * 0.6
+        
+        if(false) {
+            x = center_x + (2.0*Math.random() - 1.0)*distance_from_center*(size_x-max_radio)*.5
+            y = center_y + (2.0*Math.random() - 1.0)*distance_from_center*(size_y-max_radio)*.5
+        }
+        
+
 
         color = "hsb(" + start + ", 1, 1)"
         color_stroke = "hsb(" + start + ", 0.3, 0.1)"
-        radio = tag[0] * max_radio * 0.6
         var circle = raphael.circle(x, y, radio)
         circle.attr("fill", color).attr('opacity',0.4).attr('stroke', "#FFFFFF")
         positions[t] = [x,y,circle]
