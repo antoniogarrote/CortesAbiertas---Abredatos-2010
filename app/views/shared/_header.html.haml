@@ -29,3 +29,8 @@
         Plenos
     -else
       =link_to "Plenos", url_for(:controller => 'sessions', :action => 'index')
+    -if session[:menu] == "about"
+      %span#menu_selected
+        About 
+    -else
+      =link_to "About", url_for(:controller => 'about', :action => 'index')

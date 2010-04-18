@@ -65,16 +65,16 @@ function tags_circles(raphael, data, size_x, size_y) {
         var x = max_radio*0.5 + Math.floor(Math.random()*(size_x - max_radio)) 
         var y = max_radio*0.5 + Math.floor(Math.random()*(size_y - max_radio)) 
 
+
+        var radio = tag[0] * max_radio * 0.6
+        
+        /*if(false) {
         var normalized_radio = tag[0]
         distance_from_center = 1.0 - normalized_radio
         distance_from_center = 0.5 + (distance_from_center)*0.7
-
-        radio = tag[0] * max_radio * 0.6
-        
-        if(false) {
             x = center_x + (2.0*Math.random() - 1.0)*distance_from_center*(size_x-max_radio)*.5
             y = center_y + (2.0*Math.random() - 1.0)*distance_from_center*(size_y-max_radio)*.5
-        }
+        }*/
         
 
 
