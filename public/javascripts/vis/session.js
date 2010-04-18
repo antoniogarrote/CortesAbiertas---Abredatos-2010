@@ -7,6 +7,33 @@
 
 data_tags_test = [[63, "proyectos"], [76, "ciudadanas"], [80, "parte"], [82, "Plan"], [87, "senora"], [90, "derechos"], [92, "ley"], [104, "Comunidad"], [128, "Grupo"], [154, "Gracias"]]
 
+function get_relevant_words(url, count, callback) {
+    jQuery.getJSON(url, function(data) {
+       var words = []
+       var max = 0
+       // extract information
+       for(var w in data) {
+            word = data[w]
+            words[w] = [word.count, word.literal]
+            if (word.count > max) {
+                max = word.count
+            }
+            
+       }
+
+       // sort 
+       words.sort(function(a, b) {
+            return b[0] - a[0];
+       })
+
+       // normalize
+       words = words.slice(0, count)
+       for(var w in words) {
+            words[w][0] = words[w][0]/max
+       }
+       callback(words)
+    })
+}
 
 /**
  
@@ -23,15 +50,10 @@ function tags_circles(raphael, data) {
 
         color = "hsb(" + start + ", 1, 1)"
         color_stroke = "hsb(" + start + ", 0.3, 0.1)"
-        radio = tag[0] * 0.6
+        radio = tag[0] * 100
         var circle = raphael.circle(x, y, radio)
         circle.attr("fill", color).attr('opacity',0.4).attr('stroke', "#FFFFFF")
 
-        //text
-        var attr = {font: tag[0]*tag[0]*0.03 + 'px Georgia, serif', opacity: 0.9};
-        //raphael.text(x, y, tag[1]).attr(attr)
-        //circle.attr("stroke", "#fff");
-        //start += 0.1
     }
  
     for(t in data) {
@@ -39,7 +61,8 @@ function tags_circles(raphael, data) {
         x = positions[t] [0]
         y = positions[t] [1]
 
-        var attr = {font: tag[0]*0.3 + 'px Georgia, serif', opacity: 0.9};
+        radio = tag[0]*tag[0] * 60 + 10
+        var attr = {font: radio + 'px Georgia, serif', opacity: 0.9};
         raphael.text(x, y, tag[1]).attr(attr)
     }
 
