@@ -17,4 +17,6 @@ CortesAbiertas = {
     hello: function() {
         alert("hola");
     }
+    
 }
+    
