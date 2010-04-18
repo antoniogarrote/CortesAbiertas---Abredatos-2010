@@ -1,0 +1,34 @@
+.intervention_excerpt{ :class => 'push-2 prepend-1 span-18 append-1 rounded_box' }
+  %hr.space
+  %div{ :class => 'title span-2' }
+    =image_tag 'people_icn.png'
+  %div{ :class => 'span-12' }
+    %div{ :class => 'title span-12 last' }
+      =intervention.parliament_member.name
+  %hr.space
+  %div{ :class => 'prepend-1 span-4 last' }
+    =label_tag :description, "Texto de la intervenci&oacute;n:"
+  %hr.space
+  %div{:class => 'intervention-text'}
+    =intervention.content
+  %hr.space
+  %hr.space
+-#   %hr.space
+-#   %div{ :class => 'prepend-1 span-4 last' }
+-#     =label_tag :description, "De qu&eacute; se habl&oacute;:"
+-#   %hr.space
+-#   %div{ :id => "session_tag_cloud_#{session.id}", :session_id => "#{session.id}", :class => 'session_tag_cloud span-10', :height => "200"}
+-#   %hr.space
+-#   %div{ :class => "charts 'prepend-5 span-20"}
+-#     %span{ :id => "chart_nouns_session_#{session.id}", :class => "chart"}
+-#     %span{ :id => "chart_adjs_session_#{session.id}", :class => "chart"}
+-#     %span{ :id => "chart_verbs_session_#{session.id}", :class => "chart"}
+-#   %hr.space
+-#   %hr.space
+-# :javascript
+-#   jQuery(document).ready(function(){
+-#     CortesAbiertas.show_bar_adjs_chart(#{session.id});
+-#     CortesAbiertas.show_bar_nouns_chart(#{session.id});
+-#     CortesAbiertas.show_bar_verbs_chart(#{session.id});
+-#   });
+

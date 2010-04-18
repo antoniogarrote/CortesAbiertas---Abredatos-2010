@@ -37,12 +37,19 @@
     %span{ :id => "chart_nouns_session_#{session.id}", :class => "chart"}
     %span{ :id => "chart_adjs_session_#{session.id}", :class => "chart"}
     %span{ :id => "chart_verbs_session_#{session.id}", :class => "chart"}
-  %hr.space
-  %hr.space
+    %hr.space
+    %hr.space
+
+    %div{ :class => 'title prepend-6 span-5 append-5 last' }
+      %div{ :class => 'span-5 button' }
+        =link_to "Ver", :controller => "interventions", :id => session.id
+    %hr.space
+
 :javascript
   jQuery(document).ready(function(){
     CortesAbiertas.show_bar_adjs_chart(#{session.id});
     CortesAbiertas.show_bar_nouns_chart(#{session.id});
     CortesAbiertas.show_bar_verbs_chart(#{session.id});
   });
+
 
