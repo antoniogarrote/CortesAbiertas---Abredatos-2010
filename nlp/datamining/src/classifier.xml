@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:gate="http://gate.ac.uk/ns/spring"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+       http://gate.ac.uk/ns/spring
+       http://gate.ac.uk/ns/spring.xsd">
+
+       <!-- GATE init -->
+       <gate:init gate-home="file:/Applications/GATE-5.1/" user-config-file="file:/Users/antonio/Desarrollo/Goomer/dataMining/classifier/resources/gate/user-gate.xml">
+         <gate:preload-plugins>
+           <value type="org.springframework.core.io.Resource">file:/Applications/GATE-5.1/plugins/ANNIE</value>
+           <value type="org.springframework.core.io.Resource">file:/Applications/GATE-5.1/plugins/Tagger_TreeTagger</value>
+           <value type="org.springframework.core.io.Resource">file:/Applications/GATE-5.1/plugins/Stemmer_Snowball</value>
+         </gate:preload-plugins>
+       </gate:init>
+
+       <!-- GATE PR resources -->
+
+       <!-- Annotation deleter -->
+       <gate:resource id="prDocumentReset" scope="singleton"
+                      resource-class="gate.creole.annotdelete.AnnotationDeletePR">
+       </gate:resource>
+
+       <!-- Sentence splitter -->
+       <gate:resource id="prSentenceSplitter" scope="singleton"
+                      resource-class="gate.creole.splitter.SentenceSplitter">
+       </gate:resource>
+
+       <!-- Default tokeniser -->
+       <gate:resource id="prDefaultTokeniser" scope="singleton"
+                      resource-class="gate.creole.tokeniser.DefaultTokeniser">
+       </gate:resource>
+
+       <!-- Tree Tagger -->
+       <gate:resource id="prTreeTagger" scope="singleton"
+                      resource-class="gate.treetagger.TreeTagger">
+         <gate:parameters>
+           <entry key="treeTaggerBinary">
+             <value type="org.springframework.core.io.Resource">
+               file:/Applications/GATE-5.1/plugins/Tagger_TreeTagger/resources/tree-tagger-spanish-gate
+             </value>
+           </entry>
+           <entry key="encoding" value="iso-8859-1" />
+           <entry key="failOnUnmappableChar" value="false" />
+         </gate:parameters>
+       </gate:resource>
+
+       <!-- Stemmer -->
+       <gate:resource id="prStemmer" scope="singleton"
+                      resource-class="stemmer.SnowballStemmer">
+         <gate:parameters>
+           <entry key="annotationFeature" value="string" />
+           <entry key="annotationType" value="Token" />
+           <entry key="language" value="spanish" />
+         </gate:parameters>
+       </gate:resource>
+
+       <!-- Gazetteer -->
+       <gate:resource id="prGazetteer" scope="singleton"
+                      resource-class="gate.creole.gazetteer.DefaultGazetteer">
+         <gate:parameters>
+           <entry key="caseSensitive" value="false" />
+           <entry key="encoding" value="iso-8859-1" />
+           <entry key="listsURL">
+             <value type="org.springframework.core.io.Resource">
+              file:/Applications/GATE-5.1/plugins/ANNIE/resources/gazetteer/spanish_stop.def
+             </value>
+           </entry>
+         </gate:parameters>
+       </gate:resource>
+
+       <!-- GATE Serial Controller -->
+       <gate:resource id="serialController" scope="singleton"
+                      resource-class="gate.creole.SerialAnalyserController">
+         <gate:customisers>
+           <gate:set-parameter name="PRs">
+             <list>
+               <ref bean="prDocumentReset"/>
+               <ref bean="prSentenceSplitter"/>
+               <ref bean="prDefaultTokeniser"/>
+               <ref bean="prGazetteer"/>
+               <ref bean="prTreeTagger"/>
+               <ref bean="prStemmer"/>
+             </list>
+           </gate:set-parameter>
+         </gate:customisers>
+       </gate:resource>
+</beans>
