@@ -3,6 +3,13 @@
   #header_links
 
   #menu
+    -if session[:menu] == "sessions"
+      %span#menu_selected
+        Plenos
+    -else
+      =link_to "Plenos", url_for(:controller => 'sessions', :action => 'index')
+    %span.link_separator
+      &nbsp;
     -if session[:menu] == "intiatives"
       %span#menu_selected
         Iniciativas
@@ -22,13 +29,6 @@
         Noticias
     -else
       =link_to "Noticias", url_for(:controller => 'news', :action => 'index')
-    %span.link_separator
-      &nbsp;
-    -if session[:menu] == "sessions"
-      %span#menu_selected
-        Plenos
-    -else
-      =link_to "Plenos", url_for(:controller => 'sessions', :action => 'index')
     %span.link_separator
       &nbsp;
     -if session[:menu] == "about"

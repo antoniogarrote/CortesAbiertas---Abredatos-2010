@@ -1,7 +1,7 @@
 <script type="text/javascript">
 jQuery(document).ready(function(){
     var div = jQuery("#words_tag_cloud")
-    div.html("<img src='/images/loading.gif' />")
+    div.html("<img class='spinner_main' src='/images/loading.gif' />")
     get_relevant_words("/api/words?max=30&relevant=true", 40, function(data) {
             div.html("")
             var r = Raphael("words_tag_cloud", 900, 500);
