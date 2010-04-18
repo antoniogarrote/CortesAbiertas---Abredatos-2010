@@ -11,7 +11,7 @@ class Intervention < ActiveRecord::Base
       :session_id => session.id,
       :session_identifier => session.identifier,
       :parliament_member => parliament_member.to_hash,
-      :words_json => intervention_words.map(&:to_hash) }
+      :words_json => session_words.select{|w| w.relevant }.map(&:to_hash) }
   end
 
   def to_json

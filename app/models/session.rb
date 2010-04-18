@@ -9,7 +9,7 @@ class Session < ActiveRecord::Base
       :content => content,
       :day_order => day_order,
       :interventions => interventions.map(&:to_hash),
-      :words_json => session_words.map(&:to_hash) }
+      :words_json => session_words.select{|w| w.relevant }.map(&:to_hash) }
   end
 
   def to_json
