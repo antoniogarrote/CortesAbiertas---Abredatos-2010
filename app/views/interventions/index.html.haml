@@ -1,5 +1,5 @@
 :javascript
-  #{data_json}
+  #{data_json_interventions(@session)}
 
 -#=render :partial => "shared/tag_cloud"
 %hr.space
@@ -8,7 +8,7 @@
 %hr.space
 
 %h1.title
-  Intervenciones en la sesion: #{@session.identifier} - #{@session.date}
+  Intervenciones en la sesion: #{@session.identifier}
 
 %hr.space
 %hr.space
@@ -16,20 +16,43 @@
 %div{ :class => 'push-2 prepend-1 span-18 append-1 rounded_box'}
   %hr.space
   %div{ :class => 'title span-12 last' }
-    Intervenciones
+    Oradores
   %div{ :id => "session_part_#{@session.id}", :session_id => "#{@session.id}", :class => 'session_part span-18 last' , :height => "300"}
+  %hr.space
 
 %hr.space
 %hr.space
+
+%div{ :class => 'push-2 prepend-1 span-18 append-1 rounded_box'}
+  %hr.space
+  %div{ :class => 'title span-12 last' }
+    Resumen
+  %div{ :id => "chart_adjs_session", :class => 'span-18 last' , :height => "300"}
+  %hr.space
+  %div{ :id => "chart_nouns_session", :class => 'span-18 last' , :height => "300"}
+  %hr.space
+  %div{ :id => "chart_verbs_session", :class => 'span-18 last' , :height => "300"}
+  %hr.space
+  %hr.space
+
+%hr.space
+%hr.space
+
 
 -@interventions.each do |intervention|
   =render :partial => "intervention", :locals => { :intervention => intervention }
 
 %hr.space
 %hr.space
+%hr.space
 
 :javascript
   jQuery(document).ready(function(){
+
+    CortesAbiertas.show_big_bar_adjs_chart();
+    CortesAbiertas.show_big_bar_nouns_chart();
+    CortesAbiertas.show_big_bar_verbs_chart();
+
    jQuery(".session_part").each(function(i, s) {
         jQuery(this).html("<img src='/images/loading.gif' />")
 
@@ -41,10 +64,10 @@
                 div.html("")
                 var id = "session_part_" + session_id
                 var r = Raphael(id, 600, 300);
-                
+
                 var ar = []
                 var legend = []
-                
+
                 for(var w in data) {
                     ar.push(data[w]*100)
                     legend.push(w)
