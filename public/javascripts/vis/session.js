@@ -83,17 +83,26 @@ function tags_circles(raphael, data, size_x, size_y) {
 
 }
 
-/*
-function vis_session_tags(where, session_json_url) {
-    var paper = Raphael(10, 50, 320, 200);
-    // Creates circle at x = 50, y = 40, with radius 10
-    var circle = paper.circle(50, 40, 10);
-    // Sets the fill attribute of the circle to red (#f00)
-    circle.attr("fill", "#f00");
 
-    // Sets the stroke attribute of the circle to white
-    circle.attr("stroke", "#fff");
-
+function session_get_intervention_per_MP(url, callback) {
+    jQuery.getJSON(url, function(data) {
+        var names = {}
+        var max = 0 
+        data.each(function(obj) {
+        //for(var w in data) {
+            var name = obj.parliament_member.name
+            var count = obj.content.length
+            if (name in names) {
+                names[name] +=  count
+            } else {
+                names[name] =  count
+            }
+            max += count
+        })
+        //normalize
+        for(var n in names) {
+            names[n] = names[n] / max;
+        }
+        callback(names)
+    })
 }
-*/
-
