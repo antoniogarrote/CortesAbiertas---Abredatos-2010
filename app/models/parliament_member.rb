@@ -8,7 +8,7 @@ class ParliamentMember < ActiveRecord::Base
 
   def to_hash
     {"name" => name,
-      "words_json" => intervention_words.map(&:to_hash) }
+      "words_json" => parliament_member_words.map(&:to_hash) }
   end
 
   def to_json
