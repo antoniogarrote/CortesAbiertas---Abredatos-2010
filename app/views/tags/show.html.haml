@@ -1,0 +1,47 @@
+:javascript
+  jQuery(document).ready(function(){
+    var time_serie = #{@freqs_values.to_json};
+    var time_legend = #{@freqs_legend.to_json};
+    var myChart = new JSChart('temp_graph', 'line');
+    myChart.setDataArray(time_serie);
+    myChart.setSize(700, 300);
+    myChart.setTitle("");
+    myChart.setAxisNameY("");
+    myChart.setAxisNameX("");
+    myChart.setShowXValues(false);
+    for(var _i=0; _i<time_legend.length; _i++) {
+
+        var pair = time_legend[_i];
+        myChart.setLabelX(pair);
+
+    }
+    myChart.draw();
+  });
+
+
+%hr.space
+%hr.space
+%hr.space
+%hr.space
+
+%h1.title
+  Palabra: #{@intervention_word.literal} (#{@intervention_word.pos_string})
+
+%hr.space
+%hr.space
+
+%div{ :class => 'push-2 prepend-1 span-18 append-1 rounded_box'}
+  %hr.space
+  %div{ :class => 'title span-12 last' }
+    Evoluci&oacute;n temporal
+  %div{ :id => "temp_graph", :class => 'span-18 last' , :height => "300"}
+  %hr.space
+
+%hr.space
+%hr.space
+
+
+
+
+-@sessions.each do |session|
+  =render :partial => "session", :locals => { :session => session }
