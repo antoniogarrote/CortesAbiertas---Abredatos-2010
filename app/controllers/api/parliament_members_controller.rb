@@ -10,6 +10,8 @@ class Api::ParliamentMembersController < ApplicationController
   end
 
   def create
+    return render :text => "unauthorized", :status => 401
+
     data = ActiveSupport::JSON.decode(request.body.read)
 
     begin
@@ -57,6 +59,8 @@ class Api::ParliamentMembersController < ApplicationController
   end
 
   def destroy
+    return render :text => "unauthorized", :status => 401
+
     begin
       ParliamentMember.destroy_all
       render :text => "destroyed", :status => 200

@@ -10,6 +10,7 @@ class Api::InterventionsController < ApplicationController
   end
 
   def create
+    return render :text => "unauthorized", :status => 401
 
     data = ActiveSupport::JSON.decode(request.body.read)
     begin
@@ -79,6 +80,8 @@ class Api::InterventionsController < ApplicationController
   end
 
   def destroy
+    return render :text => "unauthorized", :status => 401
+
     begin
       if params[:id] == "*"
         Intervention.destroy_all
