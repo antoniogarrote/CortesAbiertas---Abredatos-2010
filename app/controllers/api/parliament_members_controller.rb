@@ -47,9 +47,11 @@ class Api::ParliamentMembersController < ApplicationController
       if params[:name]
         find_pm(params[:name])
       elsif params[:id]
-        render :json => find(params[:id]).to_hash.to_json, :status => 200
+        render :json => ParliamentMember.find(params[:id]).to_hash.to_json, :status => 200
       end
     rescue Exception => ex
+      logger.error("Error: #{ex.message}")
+      logger.error(ex.backtrace.join("\r\n"))
       render :text => "error", :status => 401
     end
   end

@@ -1,0 +1,19 @@
+<script type="text/javascript">
+jQuery(document).ready(function(){
+   jQuery(".session_tag_cloud").each(function(i, s) {
+        jQuery(this).html("<img src='/images/loading.gif' />")
+
+    })
+    jQuery(".session_tag_cloud").each(function(i, s) {
+        var div = jQuery(this)
+        var session_id = jQuery(this).attr("session_id")
+        get_session_words("/api/sessions/" + session_id, 10, function(data) {
+                div.html("")
+                var id = "session_tag_cloud_" + session_id
+                var r = Raphael(id, 600, 200);
+                tags_circles(r, data, 600, 200)
+        })
+    })
+
+});
+</script>

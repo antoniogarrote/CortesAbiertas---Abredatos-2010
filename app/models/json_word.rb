@@ -1,13 +1,38 @@
 module JsonWord
   module ToInclude
 
+    def check_valid
+      w = Word.find(:first, :conditions => ["stem=? and pos=?", stem, pos])
+      if w
+        self.relevant = w.relevant
+      else
+        if count > 10
+          self.relevant = true
+        else
+          self.relevant = false
+        end
+      end
+
+      self.save!
+    end
+
+    def pos_string
+      if pos == "NC"
+        "Sustantivo"
+      elsif pos == "Adj"
+        "Adjetivo"
+      else
+        "Verbo"
+      end
+    end
+
     def to_hash
       h = {
         :stem => stem,
         :pos => pos,
         :literal => literal,
         :lemma => lemma,
-        :count => count,
+        :count => count
       }
       if date
         h[:date] = date

@@ -1,5 +1,39 @@
 class Api::WordsController < ApplicationController
 
+  def index
+    begin
+      if params[:relevant] && params[:relevant] == "true"
+        if params[:max]
+          ws = with_cache("words_relevant_max#{params[:max]}") do
+            Word.find(:all, :conditions => { :relevant => true}, :order => "count DESC", :limit => params[:max])
+          end
+          render :json => ws.map(&:to_hash).to_json, :status => 200
+        else
+          ws = with_cache("words_relevant") do
+            Word.find(:all, :conditions => { :relevant => true})
+          end
+          render :json => Word.find(:all, :conditions => { :relevant => true}).map(&:to_hash).to_json, :status => 200
+        end
+      else
+        if params[:max]
+          ws = with_cache("words_max#{params[:max]}") do
+            Word.find(:all, :limit => params[:max], :order => "count DESC")
+          end
+          render :json => ws.map(&:to_hash).to_json, :status => 200
+        else
+          ws = with_cache("words") do
+            Word.all
+          end
+          render :json => ws.map(&:to_hash).to_json, :status => 200
+        end
+      end
+    rescue Exception => ex
+      logger.error(ex.message)
+      logger.error(ex.backtrace.join("\r\n"))
+      render :text => "error #{ex.message}", :status => 401
+    end
+  end
+
   def create
     data = ActiveSupport::JSON.decode(request.body.read)
 

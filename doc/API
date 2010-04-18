@@ -1,0 +1,14 @@
+*todas las sessiones
+ curl http://hollow-spring-70.heroku.com/api/sessions
+*una sesion
+ curl http://hollow-spring-70.heroku.com/api/sessions/:id
+*intervenciones en una sesion
+ curl http://hollow-spring-70.heroku.com/api/interventions?session_id=:session_id
+*parlamentarios
+ curl http://hollow-spring-70.heroku.com/api/parliament_members
+*un parlamentario
+ curl http://hollow-spring-70.heroku.com/api/parliament_members/:id
+*palabras
+ curl http://hollow-spring-70.heroku.com/api/words
+*palabras relevantes
+curl http://hollow-spring-70.heroku.com/api/words?relevant=true

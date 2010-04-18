@@ -1,0 +1,18 @@
+.summary_session{ :class => 'push-1 prepend-1 span-20 append-1 rounded_box' }
+  %hr.space
+  %div{ :class => 'span-15' }
+    %div{ :class => 'title span-12 last' }
+      =session.identifier
+    %div{ :class => 'span-12 last' }
+      Fecha:
+      %b
+        %u
+          =session.date
+  %div{ :class => 'span-4 last' }
+    %div{ :class => 'span-6 last' }
+      =image_tag 'people_icn.png'
+      %span{:class => 'title_size'}
+        =session.orators.length
+        oradores
+  %hr.space
+  %hr.space

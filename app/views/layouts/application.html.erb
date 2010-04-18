@@ -9,7 +9,11 @@
       <%= include_jq4r %>
       <%= javascript_include_tag :defaults  %>
       <%= javascript_include_tag "jquery.selectboxes.min.js" %>
-      <%= javascript_include_tag "processing-0.8.min.js" %>
+      <%= javascript_include_tag "raphael-min.js" %>
+      <%= javascript_include_tag "g.raphael-min.js" %>
+      <%= javascript_include_tag "jscharts.js" %>
+      <%= javascript_include_tag "g.pie-min.js" %>
+      <%= javascript_include_tag "vis/session.js" %>
       <%= stylesheet_link_tag "blueprint/screen", :media => 'screen, projection' %>
       <%= stylesheet_link_tag "blueprint/print", :media => 'print' %>
      <!--[if lt IE 8]>
@@ -17,24 +21,15 @@
      <![endif]-->
       <%= stylesheet_link_tag "home_layout"%>
 
-      <script type="text/javascript">
-            window.onload = function() {
-                jQuery.get("/processing/base.html", function(code) { 
-                    jQuery("#processing_visualize").html(code)
-                })
-            }
-      </script>
  </head>
 
   <body>
     <div id='fade' class='black_overlay'></div>
-    <%= render :partial => 'shared/header' %>
     <div id='main_container' class='container'>
+      <%= render :partial => 'shared/header' %>
       <div id="home_column" class="span-24 last">
         <%= yield %>
       </div>
-      <div id="processing_visualize">
-      </div> <!-- processing_visualize -->
     </div>
 
     <div id='footer_push'></div>

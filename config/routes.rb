@@ -8,6 +8,8 @@ ActionController::Routing::Routes.draw do |map|
     api.resources :words
   end
 
+  map.connect "/tags/:stem", :controller => :tags, :action => :show
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
