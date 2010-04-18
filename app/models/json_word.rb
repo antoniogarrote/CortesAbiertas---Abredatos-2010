@@ -1,6 +1,21 @@
 module JsonWord
   module ToInclude
 
+    def check_valid
+      w = Word.find(:first, :conditions => ["stem=? and pos=?", stem, pos])
+      if w
+        self.relevant = w.relevant
+      else
+        if count > 10
+          self.relevant = true
+        else
+          self.relevant = false
+        end
+      end
+
+      self.save!
+    end
+
     def to_hash
       h = {
         :stem => stem,
