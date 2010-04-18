@@ -15,4 +15,9 @@ class Session < ActiveRecord::Base
   def to_json
     to_hash.to_json
   end
+
+  def orators
+    interventions.collect{|i| i.parliament_member}.uniq
+  end
+
 end

@@ -7,7 +7,7 @@ module JsonWord
         :pos => pos,
         :literal => literal,
         :lemma => lemma,
-        :count => count,
+        :count => count
       }
       if date
         h[:date] = date

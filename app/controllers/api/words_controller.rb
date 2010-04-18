@@ -1,5 +1,19 @@
 class Api::WordsController < ApplicationController
 
+  def index
+    begin
+      if params[:relevant] && params[:relevant] == "true"
+        render :json => Word.find(:all, :conditions => { :relevant => true}).map(&:to_hash).to_json, :status => 200
+      else
+        render :json => Word.all.map(&:to_hash).to_json, :status => 200
+      end
+    rescue Exception => ex
+      logger.error(ex.message)
+      logger.error(ex.backtrace.join("\r\n"))
+      render :text => "error #{ex.message}", :status => 401
+    end
+  end
+
   def create
     data = ActiveSupport::JSON.decode(request.body.read)
 
