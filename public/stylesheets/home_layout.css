@@ -15,6 +15,10 @@ h1, h2, h3, h4, h5, h6 {
    color:#333333
 }
 
+.chart{
+   margin-left: 8px
+}
+
 #header
 {
    color: #ffffff;
@@ -435,4 +439,13 @@ a:hover
 {
    text-align: left;
    margin-left: 30px
+}
+
+/* Interventions */
+.intervention-text
+{
+   background: white;
+   padding: 10px;
+   font-family:Georgia, serif;
+   font-size: 13px;
 }

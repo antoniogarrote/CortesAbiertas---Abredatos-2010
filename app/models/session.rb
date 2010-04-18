@@ -9,7 +9,7 @@ class Session < ActiveRecord::Base
       :content => content,
       :day_order => day_order,
       :interventions => interventions.map(&:to_hash),
-      :words_json => session_words.map(&:to_hash) }
+      :words_json => session_words.select{|w| w.relevant }.map(&:to_hash) }
   end
 
   def to_json
@@ -22,5 +22,39 @@ class Session < ActiveRecord::Base
 
   def day_order_bullets
     Session.first.day_order.split(/\s*\d+\.([\d\.])*\s*/).reject{|p| p == "" || p=="."}
+  end
+
+  def all_top_words(limit=3)
+    session_words.find(:all, :conditions => ["relevant=?", true], :limit => limit , :order => "count DESC")
+  end
+
+  def all_top_nouns(limit=3)
+    session_words.find(:all, :conditions => ["relevant=? AND pos=?", true,"NC"], :limit => limit , :order => "count DESC")
+  end
+
+  def all_top_verbs(limit=3)
+    session_words.find(:all, :conditions => ["relevant=? AND pos=?", true,"VLfin"], :limit => limit , :order => "count DESC")
+  end
+
+  def all_top_adjs(limit=3)
+    session_words.find(:all, :conditions => ["relevant=? AND pos=?", true,"ADJ"], :limit => limit , :order => "count DESC")
+  end
+
+  def self.dump_js(filename)
+    debugger
+    js = StringIO.new
+    js << "SessionDataCortesAbiertas = {"
+    Session.all.each_with_index do |s,i|
+      if i != 0
+        js << " , "
+      end
+      js << "session_#{s.id}: "
+      js << s.all_top_words.map{ |w| w.to_hash }
+    end
+    js << "}"
+
+    File.open(filename,"w") do |f|
+      f << js.string
+    end
   end
 end

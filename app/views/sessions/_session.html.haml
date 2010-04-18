@@ -1,8 +1,6 @@
-.summary_session{ :class => 'push-2 prepend-1 span-18 append-1 rounded_box' }
+.summary_session{ :class => 'push-1 prepend-1 span-20 append-1 rounded_box' }
   %hr.space
-  %div{ :class => 'title span-2' }
-    -#=image_tag 'project_icn.png'
-  %div{ :class => 'span-12' }
+  %div{ :class => 'span-15' }
     %div{ :class => 'title span-12 last' }
       =session.identifier
     %div{ :class => 'span-12 last' }
@@ -11,14 +9,16 @@
         %u
           =session.date
   %div{ :class => 'span-4 last' }
-    %div{ :class => 'span-4 last' }
+    %div{ :class => 'span-6 last' }
       =image_tag 'people_icn.png'
       %span{:class => 'title_size'}
         =session.orators.length
+        oradores
+  %hr.space
   %hr.space
   %div{ :class => 'prepend-1 span-4' }
     =label_tag :description, "Orden del dia"
-  %div{ :class => 'span-10 last' }
+  %div{ :class => 'span-12 last' }
     = "#{session.day_order_bullets.length} asuntos"
     %a{ :id => "session_summary_pod_link_#{session.id}", :href => "javascript:CortesAbiertas.show_points_of_day(#{session.id})" } mostrar
   %hr.space
@@ -28,4 +28,28 @@
         %li
           = p
   %hr.space
-  %div{ :id => "session_tag_cloud_#{session.id}", :session_id => "#{session.id}", :class => 'session_tag_cloud span-10', :height => "200"}
+  %div{ :class => 'prepend-1 span-4 last' }
+    =label_tag :description, "De qu&eacute; se habl&oacute;:"
+  %hr.space
+  %div{ :id => "session_tag_cloud_#{session.id}", :session_id => "#{session.id}", :class => 'session_tag_cloud prepend-1 span-10', :height => "200"}
+  %hr.space
+  %div{ :class => "charts 'prepend-5 span-20"}
+    %span{ :id => "chart_nouns_session_#{session.id}", :class => "chart"}
+    %span{ :id => "chart_adjs_session_#{session.id}", :class => "chart"}
+    %span{ :id => "chart_verbs_session_#{session.id}", :class => "chart"}
+    %hr.space
+    %hr.space
+
+    %div{ :class => 'title prepend-7 span-5 append-5 last' }
+      %div{ :class => 'span-5 button' }
+        =link_to "Ver", :controller => "interventions", :id => session.id
+    %hr.space
+%hr.space
+:javascript
+  jQuery(document).ready(function(){
+    CortesAbiertas.show_bar_adjs_chart(#{session.id});
+    CortesAbiertas.show_bar_nouns_chart(#{session.id});
+    CortesAbiertas.show_bar_verbs_chart(#{session.id});
+  });
+
+

@@ -7,7 +7,8 @@ class ParliamentMember < ActiveRecord::Base
   validates_presence_of :name
 
   def to_hash
-    {"name" => name, "words_json" => parliament_member_words.map(&:to_hash) }
+    {"name" => name,
+      "words_json" => parliament_member_words.map(&:to_hash) }
   end
 
   def to_json

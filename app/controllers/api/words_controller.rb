@@ -3,9 +3,29 @@ class Api::WordsController < ApplicationController
   def index
     begin
       if params[:relevant] && params[:relevant] == "true"
-        render :json => Word.find(:all, :conditions => { :relevant => true}).map(&:to_hash).to_json, :status => 200
+        if params[:max]
+          ws = with_cache("words_relevant_max#{params[:max]}") do
+            Word.find(:all, :conditions => { :relevant => true}, :order => "count DESC", :limit => params[:max])
+          end
+          render :json => ws.map(&:to_hash).to_json, :status => 200
+        else
+          ws = with_cache("words_relevant") do
+            Word.find(:all, :conditions => { :relevant => true})
+          end
+          render :json => Word.find(:all, :conditions => { :relevant => true}).map(&:to_hash).to_json, :status => 200
+        end
       else
-        render :json => Word.all.map(&:to_hash).to_json, :status => 200
+        if params[:max]
+          ws = with_cache("words_max#{params[:max]}") do
+            Word.find(:all, :limit => params[:max], :order => "count DESC")
+          end
+          render :json => ws.map(&:to_hash).to_json, :status => 200
+        else
+          ws = with_cache("words") do
+            Word.all
+          end
+          render :json => ws.map(&:to_hash).to_json, :status => 200
+        end
       end
     rescue Exception => ex
       logger.error(ex.message)

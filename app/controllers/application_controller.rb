@@ -7,4 +7,19 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+
+  protected
+
+  def with_cache(key)
+    yield
+#     res = Rails.cache.read("key")
+#     if res
+#       res
+#     else
+#       res = yield
+#       Rails.cache.write key, res
+#       res
+#     end
+  end
+
 end
