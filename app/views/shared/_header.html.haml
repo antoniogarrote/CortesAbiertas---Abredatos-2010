@@ -17,13 +17,6 @@
       =link_to "Iniciativas", url_for(:controller => 'initiatives', :action => 'index')
     %span.link_separator
       &nbsp;
-    -if session[:menu] == "provinces"
-      %span#menu_selected
-        Provincias
-    -else
-      =link_to "Provincias", url_for(:controller => 'provinces', :action => 'index')
-    %span.link_separator
-      &nbsp;
     -if session[:menu] == "news"
       %span#menu_selected
         Noticias
