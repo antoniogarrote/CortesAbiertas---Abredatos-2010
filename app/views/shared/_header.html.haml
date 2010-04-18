@@ -31,6 +31,13 @@
       =link_to "Noticias", url_for(:controller => 'news', :action => 'index')
     %span.link_separator
       &nbsp;
+    -if session[:api] == "api"
+      %span#menu_selected
+        API
+    -else
+      =link_to "API", url_for(:controller => 'dev', :action => 'show')
+    %span.link_separator
+      &nbsp;
     -if session[:menu] == "about"
       %span#menu_selected
         Acerca de

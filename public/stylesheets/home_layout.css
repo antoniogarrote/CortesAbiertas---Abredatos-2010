@@ -245,6 +245,16 @@ a:hover
    margin-top: 50px
 }
 
+.code-example
+{
+  background:none repeat scroll 0 0 black;
+  color:white;
+  font-family:monaco, sans-serif;
+  font-size:15px;
+  padding-bottom:10px;
+  padding-top:10px;
+}
+
 .spinner_main
 {
    margin-top: 200px

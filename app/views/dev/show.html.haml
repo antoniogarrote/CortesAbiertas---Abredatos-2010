@@ -1,0 +1,246 @@
+%hr.space
+%hr.space
+%hr.space
+%hr.space
+
+
+%h1.title
+  API REST
+
+%hr.space
+%hr.space
+
+.summary_session{ :class => 'push-1 prepend-1 span-20 append-1' }
+  %hr.space
+  %div{ :class => 'span-15' }
+    En
+    %b
+      congresoabierto.org
+    estamos a favor de los datos abiertos, por eso ofrecemos los datos linguisticos que hemos generado a trav&eacute;s de una API que sigue los principios de dise&ntilde;o
+    %a{:href => "http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm"}
+      REST
+    %br/
+    La API devuelve objetos JSON como resultado. Para probarla solo necesitas usar un cliente HTTP (por ejemplo CURL) y seguir la documentaci&oacute;n de esta p&aacute;gina para alguno de los recursos que ofrecemos.
+    %hr.space
+    %ul
+      %li
+        %a{:href => "#corpus"} Corpus
+      %li
+        %a{:href => "#session"} Sesi&oacute;n
+      %li
+        %a{:href => "#intervention"} Intervenci&oacute;n
+      %li
+        %a{:href => "#parliament_member"} Procurador
+
+
+%hr.space
+%hr.space
+
+.summary_session#corpus{ :class => 'push-1 prepend-1 span-20 append-1 rounded_box' }
+  %hr.space
+  %div{ :class => 'span-15' }
+    %div{ :class => 'title span-12 last' }
+      Recurso: Corpus
+  %hr.space
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    = "Devuelve todo el listado de palabras que conforman el corpus indexado"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :url, "url"
+  %div{ :class => 'span-12 last' }
+    = "/api/words"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    %ul
+      %li count: numero de ocurrencias
+      %li literal: texto literal de la palabra
+      %li pos: Part Of Speech, categor&iacute;a gramatical
+      %li stem: ra&iacute;z de la palabra
+      %li lemma: forma base
+      %li relevant: indica si la palabra es relevante
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :ejemplos, "ejemplos"
+  %div{ :class => 'span-12 last' }
+  %hr.space
+  %div{ :class => 'prepend-2 spand-10 code-example' }
+    curl http://cortesabiertas.com/api/words
+  %hr.space
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    = "Devuelve s&oacute;lo las palabras relevantes del corpus"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :url, "url"
+  %div{ :class => 'span-12 last' }
+    = "/api/words"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :ejemplos, "ejemplos"
+  %div{ :class => 'span-12 last' }
+  %hr.space
+  %div{ :class => 'prepend-2 spand-10 code-example' }
+    curl http://cortesabiertas.com/api/words?relevant=true
+  %hr.space
+  %hr.space
+%hr.space
+%hr.space
+
+.summary_session#session{ :class => 'push-1 prepend-1 span-20 append-1 rounded_box' }
+  %hr.space
+  %div{ :class => 'span-15' }
+    %div{ :class => 'title span-12 last' }
+      Recurso: Sesi&oacute;n
+  %hr.space
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    = "Devuelve todo el listado de palabras indexadas para todas las sesiones de las cortes"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :url, "url"
+  %div{ :class => 'span-12 last' }
+    = "/api/sessions"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    %ul
+      %li id: identificador
+      %li content: texto de la sesi&oacute;n
+      %li day_order: texto del orden del d&iacute;n
+      %li interventions: array de intervenciones asociadas a esta sesi&oacute;n
+      %li date: fecha
+      %li words_json: listado de palabras analizadas para esta sesi&oacute;n
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :ejemplos, "ejemplos"
+  %div{ :class => 'span-12 last' }
+  %hr.space
+  %div{ :class => 'prepend-2 spand-10 code-example' }
+    curl http://cortesabiertas.com/api/sessions
+  %hr.space
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    = "Devuelve s&oacute;lo las palabras indexadas para una sola sesi&oacute;n de las cortes a partir de su :id"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :url, "url"
+  %div{ :class => 'span-12 last' }
+    = "/api/sessions"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :ejemplos, "ejemplos"
+  %div{ :class => 'span-12 last' }
+  %hr.space
+  %div{ :class => 'prepend-2 spand-10 code-example' }
+    curl http://cortesabiertas.com/api/sessions/:id
+  %hr.space
+  %hr.space
+%hr.space
+%hr.space
+
+
+.summary_session#intervention{ :class => 'push-1 prepend-1 span-20 append-1 rounded_box' }
+  %hr.space
+  %div{ :class => 'span-15' }
+    %div{ :class => 'title span-12 last' }
+      Recurso: Intervenci&oacute;n
+  %hr.space
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    = "Devuelve todo el listado de palabras indexadas para todas la intervenciones de una sesi&oacute;n en cortes pasada como par&aacute;metro :session_id"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :url, "url"
+  %div{ :class => 'span-12 last' }
+    = "/api/interventions"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    %ul
+      %li sequence: secuencia dentro de la sesi&oacute;n
+      %li content: texto de la intervenci&oacute;n
+      %li session_id: ID de la sesi&oacute;n a la que pertence
+      %li date: fecha
+      %li parliament_member: nombre del procurador que realiza la intervenci&oacute;n
+      %li words_json: listado de palabras analizadas para esta sesi&oacute;n
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :ejemplos, "ejemplos"
+  %div{ :class => 'span-12 last' }
+  %hr.space
+  %div{ :class => 'prepend-2 spand-10 code-example' }
+    curl http://cortesabiertas.com/api/interventions?session_id=:session_id
+  %hr.space
+  %hr.space
+%hr.space
+%hr.space
+
+
+.summary_session#parliament_member{ :class => 'push-1 prepend-1 span-20 append-1 rounded_box' }
+  %hr.space
+  %div{ :class => 'span-15' }
+    %div{ :class => 'title span-12 last' }
+      Recurso: Procurador
+  %hr.space
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    = "Devuelve todo el listado de los procuradores en cortes"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :url, "url"
+  %div{ :class => 'span-12 last' }
+    = "/api/parliament_members"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    %ul
+      %li name: nombre del procurador
+      %li words_json: listado de palabras analizadas para esta sesi&oacute;n
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :ejemplos, "ejemplos"
+  %div{ :class => 'span-12 last' }
+  %hr.space
+  %div{ :class => 'prepend-2 spand-10 code-example' }
+    curl http://cortesabiertas.com/api/parliament_members
+  %hr.space
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "descripci&oacute;n"
+  %div{ :class => 'span-12 last' }
+    = "Devuelve s&oacute;lo las palabras indexadas asociadas a un determinado procurador a partir de su :id"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :url, "url"
+  %div{ :class => 'span-12 last' }
+    = "/api/parliament_members/:id"
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :ejemplos, "ejemplos"
+  %div{ :class => 'span-12 last' }
+  %hr.space
+  %div{ :class => 'prepend-2 spand-10 code-example' }
+    curl http://cortesabiertas.com/api/parliament_members/:id
+  %hr.space
+  %hr.space
+%hr.space
+%hr.space
