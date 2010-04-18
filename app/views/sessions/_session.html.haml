@@ -1,0 +1,30 @@
+.summary_session{ :class => 'push-2 prepend-1 span-18 append-1 rounded_box' }
+  %hr.space
+  %div{ :class => 'title span-2' }
+    -#=image_tag 'project_icn.png'
+  %div{ :class => 'span-12' }
+    %div{ :class => 'title span-12 last' }
+      =session.identifier
+    %div{ :class => 'span-12 last' }
+      Fecha:
+      %b
+        %u
+          =session.date
+  %div{ :class => 'span-4 last' }
+    %div{ :class => 'span-4 last' }
+      =image_tag 'people_icn.png'
+      %span{:class => 'title_size'}
+        =session.orators.length
+  %hr.space
+  %div{ :class => 'prepend-1 span-4' }
+    =label_tag :description, "Orden del dia"
+  %div{ :class => 'span-10 last' }
+    = "#{session.day_order_bullets.length} asuntos"
+    %a{ :id => "session_summary_pod_link_#{session.id}", :href => "javascript:CortesAbiertas.show_points_of_day(#{session.id})" } mostrar
+  %hr.space
+  %div{ :id => "session_summary_#{session.id}", :class => 'prepend-5 span-10 last', :style => "display:none" }
+    -session.day_order_bullets.each do |p|
+      %ul
+        %li
+          = p
+  %hr.space

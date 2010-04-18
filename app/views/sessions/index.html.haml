@@ -1,0 +1,16 @@
+%hr.space
+%hr.space
+%hr.space
+%hr.space
+
+%h1.title
+  Diario de Sesiones de las Cortes de Castilla y Le&oacute;n
+
+%hr.space
+%hr.space
+
+-@sessions.reverse.each do |session|
+  =render :partial => "session", :locals => { :session => session }
+
+%hr.space
+%hr.space

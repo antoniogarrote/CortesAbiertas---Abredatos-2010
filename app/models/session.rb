@@ -20,4 +20,7 @@ class Session < ActiveRecord::Base
     interventions.collect{|i| i.parliament_member}.uniq
   end
 
+  def day_order_bullets
+    Session.first.day_order.split(/\s*\d+\.([\d\.])*\s*/).reject{|p| p == "" || p=="."}
+  end
 end
