@@ -1,4 +1,3 @@
-=render :partial => "shared/tag_cloud"
 %hr.space
 %hr.space
 %hr.space
@@ -6,6 +5,9 @@
 
 %h1.title
   Noticias de las Cortes de Castilla y Le&oacute;n
+%hr.space
+%hr.space
+
 -@news.reverse.each do |new|
   =render :partial => "news", :locals => { :new => new }
 %hr.space

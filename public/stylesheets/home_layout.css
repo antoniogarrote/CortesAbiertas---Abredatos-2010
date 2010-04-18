@@ -176,6 +176,15 @@ a:hover
    font-weight: bold
 }
 
+.title_link_news
+{
+   color: #5F202A ;
+   font-size: 18px;
+   margin-top: 6px;
+   margin-bottom: 6px;
+   font-weight: bold
+}
+
 .title_size
 {
    font-size: 24px;

@@ -1,22 +1,25 @@
-.summary_news{ :class => 'push-2 prepend-1 span-18 append-1 rounded_box' }
+.summary_news{ :class => 'push-2 prepend-1 span-16 append-1 rounded_box' }
   %hr.space
   %div{ :class => 'title span-2' }
-    -#=image_tag 'project_icn.png'
   %div{ :class => 'span-12' }
-    %div{ :class => 'title span-12 last' }
-      %a{ :id => "session_summary_pod_link_#{new.id}", :href => new.link } #{new.title}
+    %div{ :class => 'title_link_news span-12 last' }
+      =new.title
+    %hr.space
     %div{ :class => 'span-12 last' }
       Fecha:
       %b
         %u
           = new.date
-
-
-  %div{ :class => 'span-10 last' }
+  %hr.space
+  %div{ :class => 'prepend-12 span-4' }
     %b
       %a{ :id => "session_summary_pod_link_#{new.id}", :href => "javascript:CortesAbiertas.show_points_of_day(#{new.id})" } mostrar
-  %hr.space
-  %div{ :id => "session_summary_#{new.id}", :class => 'prepend-5 span-10 last', :style => "display:none" }
-    = new.des
-  %hr.space
+  %div{ :class => 'span-12 last' }
 
+  %hr.space
+  %div{ :id => "session_summary_#{new.id}", :class => 'prepend-3 span-10 last', :style => "display:none" }
+    = new.des
+    %hr.space
+    %hr.space
+  %hr.space
+%hr.space
