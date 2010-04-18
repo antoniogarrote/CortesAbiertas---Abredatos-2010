@@ -16,6 +16,16 @@ module JsonWord
       self.save!
     end
 
+    def pos_string
+      if pos == "NC"
+        "Sustantivo"
+      elsif pos == "Adj"
+        "Adjetivo"
+      else
+        "Verbo"
+      end
+    end
+
     def to_hash
       h = {
         :stem => stem,
