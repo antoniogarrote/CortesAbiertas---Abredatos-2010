@@ -23,4 +23,38 @@ class Session < ActiveRecord::Base
   def day_order_bullets
     Session.first.day_order.split(/\s*\d+\.([\d\.])*\s*/).reject{|p| p == "" || p=="."}
   end
+
+  def all_top_words(limit=3)
+    session_words.find(:all, :conditions => ["count > ?", 10], :limit => limit , :order => "count DESC")
+  end
+
+  def all_top_nouns(limit=3)
+    session_words.find(:all, :conditions => ["count > ? AND pos=?", 10,"NC"], :limit => limit , :order => "count DESC")
+  end
+
+  def all_top_verbs(limit=3)
+    session_words.find(:all, :conditions => ["count > ? AND pos=?", 10,"VLfin"], :limit => limit , :order => "count DESC")
+  end
+
+  def all_top_adjs(limit=3)
+    session_words.find(:all, :conditions => ["count > ? AND pos=?", 10,"ADJ"], :limit => limit , :order => "count DESC")
+  end
+
+  def self.dump_js(filename)
+    debugger
+    js = StringIO.new
+    js << "SessionDataCortesAbiertas = {"
+    Session.all.each_with_index do |s,i|
+      if i != 0
+        js << " , "
+      end
+      js << "session_#{s.id}: "
+      js << s.all_top_words.map{ |w| w.to_hash }
+    end
+    js << "}"
+
+    File.open(filename,"w") do |f|
+      f << js.string
+    end
+  end
 end
