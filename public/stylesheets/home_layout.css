@@ -233,6 +233,37 @@ a:hover
    color: #5F202A
 }
 
+.session_part
+{
+   min-height:200px;
+   min-width:730px;
+   text-align:center;
+}
+
+.spinner
+{
+   margin-top: 50px
+}
+
+.spinner_main
+{
+   margin-top: 200px
+}
+
+.session_tag_cloud
+{
+   min-height:200px;
+   min-width:730px;
+   text-align:center;
+}
+
+#words_tag_cloud
+{
+   min-height:200px;
+   min-width:730px;
+   text-align:center;
+}
+
 .rounded_box
 {
    background-color: #ececec;

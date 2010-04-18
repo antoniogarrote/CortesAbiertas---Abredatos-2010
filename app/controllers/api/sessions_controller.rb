@@ -10,6 +10,8 @@ class Api::SessionsController < ApplicationController
   end
 
   def create
+    return render :text => "unauthorized", :status => 401
+
     b = request.body.read
     data = ActiveSupport::JSON.decode(b)
     begin
@@ -53,6 +55,7 @@ class Api::SessionsController < ApplicationController
   end
 
   def destroy
+    return render :text => "unauthorized", :status => 401
     begin
       if params[:id] == "*"
         Session.destroy_all

@@ -35,6 +35,8 @@ class Api::WordsController < ApplicationController
   end
 
   def create
+    return render :text => "unauthorized", :status => 401
+
     data = ActiveSupport::JSON.decode(request.body.read)
 
     y, m, d =data["date"].split(".")
@@ -58,6 +60,7 @@ class Api::WordsController < ApplicationController
   end
 
   def destroy
+    return render :text => "unauthorized", :status => 401
     stem = params["stem"]
     pos = params["pos"]
     begin
